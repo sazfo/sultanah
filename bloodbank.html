@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        input:focus {
+    outline: none;
+}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+        }
+
+        .narrow-sidebar {
+            width: 60px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: rgb(5, 109, 228);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .narrow-sidebar .icon {
+            font-size: 30px;
+            margin: 20px 0;
+            color: rgb(218, 189, 189);
+            transition: color 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .narrow-sidebar .icon:hover {
+            color: rgb(78, 137, 186);
+        }
+
+        .wide-sidebar {
+            width: 150px;
+            height: 100vh;
+            position: fixed;
+            left: 60px;
+            top: 0;
+            background-color: rgb(5, 109, 228);
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            z-index: 999; 
+        }
+
+        .wide-sidebar h2 { 
+            margin-bottom: 20px; 
+            font-size: 22px; 
+        }
+
+        .wide-sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 0;
+            display: block;
+            transition: background 0.3s;
+        }
+
+        .wide-sidebar a:hover { 
+            background: rgba(255, 255, 255, 0.2); 
+        }
+
+        /* Full-width Navbar */
+.navbar {
+    background-color: rgb(5, 109, 228); /* اللون الأزرق الخلفي */
+    padding: 15px; /* المسافة بين العناصر */
+    color: white; /* لون النص */
+    display: flex; /* تفعيل flexbox */
+    align-items: center; /* محاذاة العناصر عموديًا في المنتصف */
+    justify-content: space-between; /* توزيع العناصر بين الطرفين */
+    position: fixed; /* تثبيت الشريط في الأعلى */
+    top: 0;
+    left: 60px; /* تم تعديله ليتناسب مع الشريط الجانبي الضيق */
+    right: 0;
+    z-index: 1001; /* وضع الشريط فوق باقي العناصر */
+}
+
+.navbar h2 {
+    margin: 0; /* إزالة الهامش */
+    text-align: center; /* محاذاة النص في المنتصف */
+    flex: 1; /* منح العنوان مساحة مرنة */
+    font-size: 40px; /* حجم النص */
+}
+
+.button-container {
+    display: flex; /* تفعيل flexbox */
+    align-items: center; /* محاذاة العناصر عموديًا في المنتصف */
+    gap: 10px; /* مسافة بين العناصر */
+}
+
+.navbar button, .navbar select {
+    background-color: white; /* خلفية الزر والقائمة المنسدلة */
+    color: rgb(5, 109, 228); /* لون النص الأزرق */
+    border: none; /* إزالة الحدود */
+    padding: 8px 12px; /* المسافة داخل الزر والقائمة */
+    font-size: 16px; /* حجم النص */
+    cursor: pointer; /* تغيير المؤشر عند المرور فوق العنصر */
+    border-radius: 5px; /* جعل الأطراف دائرية */
+}
+
+.navbar button:hover, .navbar select:hover {
+    background-color: #dde5ee; /* تغيير اللون عند التمرير */
+}
+table {
+    width: 100%; /* ملء العرض بالكامل */
+    max-width: 1200px; /* الحد الأقصى للعرض لضمان عدم التمدد أكثر من اللازم */
+    margin: 20px 0 20px 0; /* جعل الجدول في الجهة اليسرى */
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-sizing: border-box; /* لضمان احتساب الحدود ضمن العرض الإجمالي */
+    float: left; /* تعديل لتحديد الجدول في الجهة اليسرى */
+}
+
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.hidden {
+    display: none;
+}
+input[type="text"] {
+    width: 50px;  
+    height: 20px;  
+    font-size: 12px; 
+}
+        button {
+            background-color:#007bff; 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            float: right;
+        }
+
+        button:hover {
+            background-color: #dde5ee;}
+        
+        .content {
+            margin-left: 210px; 
+            margin-top: 80px; 
+            width: calc(100% - 210px);
+            padding: 20px;
+        }
+        .navbar h2 {
+    margin: 0; 
+    text-align: center;
+    flex: 1; 
+    font-size: 40px;
+}
+</style>
+</head>
+<body>
+    <div class="narrow-sidebar">
+        <a href="l.html" class="icon"><i class="bi bi-person"></i></a>
+        <a href="index.html" class="icon"><i class="bi bi-house-door"></i></a>
+        <a href="bloodbank1.html" class="icon"><i class="bi bi-table"></i></a>
+        <a href="chartPage.html" class="icon"><i class="bi bi-bar-chart-line"></i></a>
+
+    </div>
+    <div class="navbar">
+        <h2>Blood Bank</h2>
+        <div class="button-container">
+            <select id="yearSelect" onchange="updateTable()">
+                <option value="Year">Year</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+            <select id="monthSelect" onchange="updateTable()">
+                <option value="Month">Month</option>
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+        </div>
+    </div>
+    <div class="content">
+        <table id="kpiTable" class="hidden">
+            <thead>
+                <tr>
+                    <th>KPI</th>
+                    <th>Week 1</th>
+                    <th>Week 2</th>
+                    <th>Week 3</th>
+                    <th>Week 4</th>
+                    <th>Week 5</th>
+                    <th>AVG</th>
+                    <th>BENCHMARK</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <button onclick="saveData()">Save Data</button>
+        <button id="saveButton">AVG</button>
+    </div>
+    <script>
+        // Your script goes here
+        let currentYear = '';
+        let currentMonth = '';
+
+        function updateTable() {
+        let year = document.getElementById('yearSelect').value;
+        let month = document.getElementById('monthSelect').value;
+        let table = document.getElementById('kpiTable');
+        let tbody = table.querySelector('tbody');
+
+        if (year && month) {
+            table.classList.remove('hidden');
+            tbody.innerHTML = '';
+
+            currentYear = year;
+            currentMonth = month;
+
+            let kpis = [
+            "kPI 1:Crossmatched/Transfused ratio",
+            "KPI 2: Percentage of expired PRBCs units in blood banks",
+            "KPI 3: Percentage of Female Blood Donors",
+            "KPI 4: Percentage of Adverse Donor events",
+            "KPI 5: Percentage of Volunteer Blood Donors",
+            "KPI 6: Percentage of Rejected Blood Units"
+            ];
+
+            let benchmarks = ["1.5%", "3.50%", "15%", "2.50%", "80%", "5%"];
+            
+            kpis.forEach((kpi, index) => {
+                let row = tbody.insertRow();
+                row.insertCell(0).innerText = kpi;
+                for (let i = 1; i <= 5; i++) {
+                    let cell = row.insertCell(i);
+                    let input = document.createElement('input');
+                    input.type = 'text';  
+                    input.placeholder = ""; 
+                    input.addEventListener('input', function() {
+                        let value = parseFloat(input.value);
+                        if (!isNaN(value)) {
+                            if (value < 60) {
+                                input.style.backgroundColor = 'transparent'; 
+                                input.style.border = 'none';
+                                input.style.backgroundColor = 'blue';
+                                input.parentElement.style.backgroundColor = 'blue';
+                                input.style.color = 'white';
+                            } else if (value >= 60.1 && value <= 85) {
+                                input.style.backgroundColor = 'transparent'; 
+                                input.style.border = 'none';
+                                input.style.backgroundColor = 'green';
+                                input.parentElement.style.backgroundColor = 'green';
+                                input.style.color = 'white';
+                            } else if (value >= 86 && value <= 119) {
+                                input.style.backgroundColor = 'transparent'; 
+                                input.style.border = 'none';
+                                input.style.backgroundColor = 'yellow';
+                                input.parentElement.style.backgroundColor = 'yellow';
+                                input.style.color = 'black';
+                            } else if (value > 119) {
+                                input.style.backgroundColor = 'transparent'; 
+                                input.style.border = 'none';
+                                input.style.backgroundColor = 'red';
+                                input.parentElement.style.backgroundColor = 'red';
+                                input.style.color = 'white';
+                            } else {
+                                input.style.backgroundColor = 'white';
+                                input.style.color = 'black';
+                            }
+                        } else {
+                            input.style.backgroundColor = 'white';
+                            input.style.color = 'black';
+                        }
+                    });
+                    cell.appendChild(input);
+                }
+                let avgCell = row.insertCell(6); 
+                avgCell.innerText = "";
+
+                let benchmarkCell = row.insertCell(7);
+                benchmarkCell.innerText = benchmarks[index]; 
+            });
+        } else {
+            table.classList.add('hidden');
+        }
+    }
+
+    function saveData() {
+    let averages = {}; // تعريف averages هنا
+    let table = document.getElementById('kpiTable');
+    let tbody = table.querySelector('tbody');
+
+    for (let row of tbody.rows) {
+        let kpiName = row.cells[0].innerText.trim();
+        let values = [];
+
+        for (let i = 1; i <= 5; i++) {
+            let val = row.cells[i].querySelector('input').value.trim();
+            if (val !== "" && !isNaN(val)) {
+                values.push(parseFloat(val));
+            }
+        }
+
+        let avg = values.length > 0 ? (values.reduce((a, b) => a + b, 0) / values.length).toFixed(2) : "";
+        averages[kpiName] = avg;
+    }
+    localStorage.setItem(`data_${currentYear}_${currentMonth}`, JSON.stringify(averages));
+
+    // تخزين السنة والشهر
+    localStorage.setItem('currentYear', currentYear);
+    localStorage.setItem('currentMonth', currentMonth);
+
+    // الانتقال إلى الصفحة الثانية
+    window.location.href = 'bloodbank1.html';
+}
+
+window.onload = function() {
+    currentYear = localStorage.getItem('currentYear') || ''; // استرجاع السنة المحفوظة
+    currentMonth = localStorage.getItem('currentMonth') || ''; // استرجاع الشهر المحفوظ
+    loadSavedData(); // تحميل البيانات المحفوظة عند تحميل الصفحة
+};
+
+    function loadSavedData() {
+        let savedData = localStorage.getItem(`data_${currentYear}_${currentMonth}`); // استخدم نفس الصيغة
+        if (savedData) {
+            savedData = JSON.parse(savedData);
+            let table = document.getElementById('kpiTable');
+            let rows = table.querySelectorAll('tbody tr');
+
+            rows.forEach((row, index) => {
+                let kpi = row.cells[0].innerText;
+                if (savedData[kpi]) {
+                    for (let i = 0; i < 5; i++) {
+                        let input = row.cells[i + 1].querySelector('input');
+                        input.value = savedData[kpi][i]; // تأكد من أنه يقوم بتعيين القيم بشكل صحيح
+                    }
+                }
+            });
+        }
+    }
+        function saveMonthlyAverages() {
+    let year = document.getElementById('yearSelect').value;
+    let month = document.getElementById('monthSelect').value;
+    if (!year || !month) {
+        alert("Please select a year and a month before saving.");
+        return;
+    }
+
+    let table = document.getElementById('kpiTable');
+    let tbody = table.querySelector('tbody');
+    let rowCount = tbody.rows.length;
+
+    let storedData = JSON.parse(localStorage.getItem('monthlyAverages')) || {};
+    if (!storedData[year]) storedData[year] = {};
+    if (!storedData[year][month]) storedData[year][month] = {};
+
+    for (let i = 0; i < rowCount; i++) {
+        let kpiName = tbody.rows[i].cells[0].textContent;
+        let sum = 0;
+        let count = 0;
+
+        for (let j = 1; j <= 5; j++) { 
+            let input = tbody.rows[i].cells[j].querySelector('input');
+            if (input) {
+                let number = parseFloat(input.value);
+                if (!isNaN(number)) {
+                    sum += number;
+                    count++;
+                }
+            }
+        }
+        let average = count > 0 ? (sum / count).toFixed(2) : "";
+        storedData[year][month][kpiName] = average;
+
+        // تحديث خلية الـ AVG
+        let avgCell = tbody.rows[i].cells[6];
+        avgCell.innerText = average;
+
+        // تغيير لون الـ AVG بناءً على القيم:
+        if (!isNaN(average) && average !== "") {
+            let avgValue = parseFloat(average);
+            if (avgValue < 60) {
+                avgCell.style.backgroundColor = 'blue';
+                avgCell.style.color = 'white';
+            } else if (avgValue >= 60.1 && avgValue <= 85) {
+                avgCell.style.backgroundColor = 'green';
+                avgCell.style.color = 'white';
+            } else if (avgValue >= 86 && avgValue <= 119) {
+                avgCell.style.backgroundColor = 'yellow';
+                avgCell.style.color = 'black';
+            } else if (avgValue > 119) {
+                avgCell.style.backgroundColor = 'red';
+                avgCell.style.color = 'white';
+            } else {
+                avgCell.style.backgroundColor = 'white';
+                avgCell.style.color = 'black';
+            }
+        } else {
+            avgCell.style.backgroundColor = 'white';
+            avgCell.style.color = 'black';
+        }
+    }
+
+    localStorage.setItem('monthlyAverages', JSON.stringify(storedData));
+    
+}
+    document.getElementById("saveButton").addEventListener("click", saveMonthlyAverages);
+    </script>
+</body>
+</html>

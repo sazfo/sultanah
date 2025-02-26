@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Data</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+           /* background-image: linear-gradient(#348CD2, #FFFFFF, #348CD2), url('../images/0.jpg');*/
+            margin: 0;
+            display: flex;
+        }
+
+        .sidebar-container {
+            display: flex;
+    position: fixed;
+    left: 10px;
+    top: 15px;
+    bottom: 30px; 
+    height: calc(100vh - 40px); 
+    border: 1px solid black; 
+    background-color: white;
+    border-radius: 20px; 
+    overflow: hidden;
+    width: 90px;
+}
+
+.narrow-sidebar {
+    width: 60px;
+    background-color:white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    
+}
+
+        .narrow-sidebar .icon {
+            font-size: 30px;
+            margin: 20px 0;
+           color: #007bff;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .narrow-sidebar .icon:hover {
+            color: rgb(78, 137, 186);
+        }
+
+        .wide-sidebar {
+    width: 150px;
+    background-color: white;
+    color: #007bff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+        .wide-sidebar h2 { 
+            margin-bottom: 20px; 
+            font-size: 22px; 
+        }
+
+        .wide-sidebar a {
+            color:  #007bff;
+            text-decoration: none;
+            padding: 10px 0;
+            display: block;
+            transition: background 0.3s;
+        }
+
+        .wide-sidebar a:hover { 
+            background: rgba(255, 255, 255, 0.2); 
+        }
+        .navbar {
+            background-color:w;
+    padding: 15px;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    position: fixed;
+    top: 10px;
+    /*left: 270px;*/
+    left: 130px;
+    right: 10px;
+    z-index: 1001;
+    border: 1px solid black; 
+    border-radius: 20px;
+        }
+
+        .navbar h2 {
+            margin: 0;
+    text-align: center;
+    font-size: 40px;
+    flex-grow: 1; 
+        }
+
+        .button-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar select {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            color: #007bff;
+            border-radius: 5px;
+        }
+
+        .content {
+            margin-left: 210px; 
+            margin-top: 80px; 
+            width: calc(100% - 210px);
+            padding: 20px;
+        }
+
+        table {
+            width: 95%;
+            margin: 40px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            border-radius: 50px;
+            
+
+            
+            
+        }
+
+        th, td {
+            padding: 10px 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        th:first-child, td:first-child {
+            width: 500px; 
+            word-wrap: break-word;
+        }
+
+        .content {
+            margin-left: 150px; 
+            margin-right: 45px; 
+
+            margin-top: 100px; 
+            width: calc(100% - 210px);
+            padding: 20px;
+        }
+
+        button {
+            background-color:#007bff; 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+            float: right;
+        }
+
+        button:hover {
+            background-color: #dde5ee;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar-container">
+        <div class="narrow-sidebar">
+            <a href="pro.html" class="icon"><i class="bi bi-person"></i></a>
+            <a href="index.html" class="icon"><i class="bi bi-house-door"></i></a>
+            <a href="DC2.html" class="icon"><i class="bi bi-table"></i></a>
+            <a href="chartPage.html" class="icon"><i class="bi bi-bar-chart-line"></i></a>
+        </div>
+       
+    </div>
+
+    <div class="navbar">
+        <h2>Diabetes Center</h2>
+        <div class="button-container">
+            <select id="yearSelect">
+                <option value="">Year</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="content">
+        <table id="summaryTable">
+            <thead>
+                <tr>
+                    <th>KPI</th>
+                    <th>January</th>
+                    <th>February</th>
+                    <th>March</th>
+                    <th>April</th>
+                    <th>May</th>
+                    <th>June</th>
+                    <th>July</th>
+                    <th>August</th>
+                    <th>September</th>
+                    <th>October</th>
+                    <th>November</th>
+                    <th>December</th>
+                    <th>AVG</th>
+                    <th>BENCHMARK 
+
+                        
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+   <script>
+    window.onload = function() {
+        let selectedYear = localStorage.getItem('selectedYear') || '2023'; 
+
+        document.getElementById('yearSelect').value = selectedYear;
+
+        loadTableData(selectedYear);
+
+        document.getElementById('yearSelect').addEventListener('change', function() {
+            selectedYear = this.value;
+            localStorage.setItem('selectedYear', selectedYear); 
+            loadTableData(selectedYear);
+        });
+    };
+
+    function loadTableData(year) {
+    let allData = JSON.parse(localStorage.getItem('savedTableData')) || {};
+    let data = allData[year];
+
+    let kpis = [
+    "KPI1: Order to Scan Time - IP-CT",
+        
+        "KPI2: Scan to Release Time - IP-CT",
+
+        "KPI3: Order to Scan Time - OPD-CT",
+
+        "KPI4: Scan to Release Time - OPD-CT",
+
+        "KPI5: Machine Utilization CT",
+
+        "KPI6: Order to Scan Time - IP-MRI",
+
+        "KPI7: Scan to Release Time - IP-MRI",
+
+        "KPI8: Order to Scan Time - OPD-MRI",
+
+        "KPI9: Scan to Release Time - OPD-MRI",
+
+        "KPI10: Machine Utilization MRI",
+
+        "KPI11: Order to Scan Time - IP-ULTR",
+
+        "KPI12: Scan to Release Time - IP-ULTR",
+
+        "KPI13: Order to Scan Time - OPD-ULTR",
+
+        "KPI14: Scan to Release Time - OPD-ULTR",
+
+        "KPI15: Machine Utilization ULTR"
+        ];
+
+    let tbody = document.querySelector('#summaryTable tbody');
+    tbody.innerHTML = '';
+
+    kpis.forEach((kpi, index) => {
+        let row = document.createElement('tr');
+        let kpiCell = document.createElement('td');
+        kpiCell.textContent = kpi;
+        row.appendChild(kpiCell);
+
+        let sum = 0;
+        let count = 0;
+
+        if (data && data[index]) {
+            data[index].forEach((cellData, cellIndex) => {
+                let cell = document.createElement('td');
+                cell.textContent = cellData;
+                setMonthColor(cell, cellData, kpi);
+                row.appendChild(cell);
+
+                let num = parseFloat(cellData);
+                if (!isNaN(num)) {
+                    sum += num;
+                    count++;
+                }
+
+                let avg = sum / count; 
+if (cellIndex === 12) {
+    setAvgColor(cell, avg, index); 
+}
+
+            });
+        } else {
+            Array(12).fill('').forEach(() => {
+                let cell = document.createElement('td');
+                row.appendChild(cell);
+            });
+        }
+
+    
+        let benchmarkCell = document.createElement('td');
+                    benchmarkCell.textContent = getBenchmarkValue(kpi);
+                    row.appendChild(benchmarkCell);
+        tbody.appendChild(row);
+    });
+}
+function getBenchmarkValue(kpi) {
+    let benchmarks = {
+        "KPI1: Order to Scan Time - IP-CT":"24H",
+        
+        "KPI2: Scan to Release Time - IP-CT":"24H",
+
+        "KPI3: Order to Scan Time - OPD-CT":"24H",
+
+        "KPI4: Scan to Release Time - OPD-CT":"48H",
+
+        "KPI5: Machine Utilization CT":"90%",
+
+        "KPI6: Order to Scan Time - IP-MRI":"24H",
+
+        "KPI7: Scan to Release Time - IP-MRI":"24H",
+
+        "KPI8: Order to Scan Time - OPD-MRI":"24H",
+
+        "KPI9: Scan to Release Time - OPD-MRI":"48H",
+
+        "KPI10: Machine Utilization MRI":"90%",
+
+        "KPI11: Order to Scan Time - IP-ULTR":"24H",
+
+        "KPI12: Scan to Release Time - IP-ULTR":"24H",
+
+        "KPI13: Order to Scan Time - OPD-ULTR":"24H",
+
+        "KPI14: Scan to Release Time - OPD-ULTR":"48H",
+
+        "KPI15: Machine Utilization ULTR":"90%",
+
+
+        };
+
+            return benchmarks[kpi] || '';
+        }
+
+        loadBenchmarkData();
+
+        function setMonthColor(cell, value, kpi) {
+    console.log("KPI:", kpi, "Value:", value); 
+    if (value === '' || value === null) {
+        cell.style.backgroundColor = '';
+        cell.style.color = '';
+    } else {
+        value = parseFloat(value);
+        if (isNaN(value)) {
+            return;
+        }
+
+        if (kpi === "KPI1: Order to Scan Time - IP-CT") {
+            if (value > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (value >= 0.0011 && value <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (value > 0.000667 && value < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (value <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+}
+
+
+        if (kpi === "KPI2: Scan to Release Time - IP-CT") {
+            if (value > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (value >= 0.0011 && value <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (value > 0.000667 && value < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (value <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+        }if (kpi === "KPI3: Order to Scan Time - OPD-CT") {
+            if (value > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (value >= 0.0011 && value <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (value > 0.000667 && value < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (value <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+        }if (kpi === "KPI4: Scan to Release Time - OPD-CT") {
+            if (value > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (value >= 0.0011 && value <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (value > 0.000667 && value < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (value <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+        }if (kpi === "KPI5: Machine Utilization CT") {
+            if (value > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (value >= 0.0011 && value <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (value > 0.000667 && value < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (value <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+        }if (kpi === "KPI6: Order to Scan Time - IP-MRI") {
+            if (value < 0.15) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.15 && value < 0.18) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.18 && value <= 0.25) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'white';
+} else if (value > 0.25) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+        }if (kpi === "KPI7: Scan to Release Time - IP-MRI") {
+            if (value >= 0 && value < 7) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 7 && value < 14) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 14 && value < 21) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value >= 21) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+        }if (kpi === "KPI8: Order to Scan Time - OPD-MRI") {
+            if (value > 0.20) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.15 && value <= 0.20) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.10 && value < 0.15) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.10) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+        }if (kpi === "KPI9: Scan to Release Time - OPD-MRI") {
+            if (value >= 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.80 && value < 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.60 && value < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.60) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+        }if (kpi === "KPI10: Machine Utilization MRI") {
+            if (value > 0.50) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.30 && value <= 0.50) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.20 && value < 0.30) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.20) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+        }if (kpi === "KPI11: Order to Scan Time - IP-ULTR") {
+            if (value > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.80 && value <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.70 && value < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+    }if (kpi === "KPI12: Scan to Release Time - IP-ULTR") {
+            if (value > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.80 && value <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.70 && value < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+    
+}if (kpi === "KPI13: Order to Scan Time - OPD-ULTR") {
+            if (value > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.80 && value <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.70 && value < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}}if (kpi === "KPI14: Scan to Release Time - OPD-ULTR") {
+            if (value > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.80 && value <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.70 && value < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}}if (kpi === "KPI15: Machine Utilization ULTR") {
+            if (value > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (value >= 0.80 && value <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (value >= 0.70 && value < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (value < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}}
+
+    }}
+
+
+
+
+    
+function setAvgColor(cell, avg, index) {
+    if (avg === '' || avg === null) {
+        cell.style.backgroundColor = '';
+        cell.style.color = '';
+        return;
+    }
+    
+    avg = parseFloat(avg);
+    if (isNaN(avg)) return;
+    
+    cell.style.backgroundColor = '';
+    
+    if (index === 0) { 
+        if (avg > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (avg >= 0.0011 && avg <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (avg > 0.000667 && avg < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (avg <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+    } else if (index === 1) { 
+        if (avg > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (avg >= 0.0011 && avg <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (avg > 0.000667 && avg < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (avg <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+    } else if (index === 2) { 
+        if (avg > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (avg >= 0.0011 && avg <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (avg > 0.000667 && avg < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (avg <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+    } else if (index === 3) { 
+        if (avg > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (avg >= 0.0011 && avg <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (avg > 0.000667 && avg < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (avg <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+    } else if (index === 4) { 
+        if (avg > 0.005) {
+        cell.style.backgroundColor = 'blue'; 
+        cell.style.color = 'white';
+    } else if (avg >= 0.0011 && avg <= 0.005) {
+        cell.style.backgroundColor = 'green'; 
+        cell.style.color = 'white';
+    } else if (avg > 0.000667 && avg < 0.0011) {
+        cell.style.backgroundColor = 'yellow'; 
+        cell.style.color = 'black';
+    } else if (avg <= 0.000667) {
+        cell.style.backgroundColor = 'red'; 
+        cell.style.color = 'white';
+    }
+    } else if (index === 5) { 
+        if (avg <= 0.05) { 
+            cell.style.backgroundColor = 'green'; 
+            cell.style.color = 'white';
+        } else if (avg > 0.05 && avg <= 0.10) { 
+            cell.style.backgroundColor = 'yellow'; 
+            cell.style.color = 'black';
+        } else {
+            cell.style.backgroundColor = 'red'; 
+            cell.style.color = 'white';
+        }
+    } else if (index === 6) { 
+        if (avg >= 0 && avg < 7) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 7 && avg < 14) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 14 && avg < 21) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg >= 21) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+
+        
+    } else if (index === 7) { 
+        if (avg > 0.20) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.15 && avg <= 0.20) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.10 && avg < 0.15) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.10) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+    } else if (index === 8) { 
+        if (avg >= 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.80 && avg < 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.60 && avg < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.60) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+    } else if (index === 9) { 
+        if (avg > 0.50) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.30 && avg <= 0.50) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.20 && avg < 0.30) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.20) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+    }else if (index === 10) { 
+        if (avg > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.80 && avg <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.70 && avg < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}} else if (index === 11) { 
+        if (avg > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.80 && avg <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.70 && avg < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+} else if (index === 12) { 
+        if (avg > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.80 && avg <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.70 && avg < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}}
+ else if (index === 13) { 
+        if (avg > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.80 && avg <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.70 && avg < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+}else if (index === 14) { 
+        if (avg > 1.00) {
+    cell.style.backgroundColor = 'blue'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.80 && avg <= 1.00) {
+    cell.style.backgroundColor = 'green'; 
+    cell.style.color = 'white';
+} else if (avg >= 0.70 && avg < 0.80) {
+    cell.style.backgroundColor = 'yellow'; 
+    cell.style.color = 'black';
+} else if (avg < 0.70) {
+    cell.style.backgroundColor = 'red'; 
+    cell.style.color = 'white';
+}
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .profile-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #007BFF;
+        }
+
+        h2 {
+            margin: 15px 0;
+        }
+
+        textarea {
+            width: 90%;
+            height: 80px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            resize: none;
+        }
+
+        .save-btn {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            margin-top: 10px;
+        }
+        .home-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.home-btn:hover {
+    background-color: #c9cbc9;
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="profile-container">
+        <input type="file" id="fileInput" style="display: none;" accept="image/*">
+        <img src="images/default-user.png" alt="Profile Picture" class="profile-pic" id="profilePic">
+        <h2 id="usernameDisplay">Username</h2>
+        <textarea id="bio" placeholder="Write something about yourself..."></textarea>
+        <br>
+        <button class="save-btn" onclick="saveProfile()">Save</button>
+        <button class="save-btn logout-btn" onclick="logout()">Logout</button>
+        <button class="home-btn" onclick="goToHome()">Home</button>
+
+    </div>
+
+    <script>
+        window.onload = function () {
+            const storedUsername = localStorage.getItem("loggedInUser");
+            if (storedUsername) {
+                document.getElementById("usernameDisplay").textContent = storedUsername;
+            } else {
+                window.location.href = "login.html"; 
+            }
+
+            const savedImage = localStorage.getItem("profileImage");
+            if (savedImage) {
+                document.getElementById("profilePic").src = savedImage;
+            }
+
+            const savedBio = localStorage.getItem("userBio");
+            if (savedBio) {
+                document.getElementById("bio").value = savedBio;
+            }
+        };
+
+        document.getElementById("profilePic").onclick = function () {
+            document.getElementById("fileInput").click();
+        };
+
+        document.getElementById("fileInput").onchange = function (event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const imageSrc = reader.result;
+                document.getElementById("profilePic").src = imageSrc;
+                localStorage.setItem("profileImage", imageSrc);
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
+
+        function saveProfile() {
+            const bioText = document.getElementById("bio").value;
+            localStorage.setItem("userBio", bioText);
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedInUser");
+            window.location.href = "login.html";
+        }
+
+        function goToHome() {
+    window.location.href = "index.html"; 
+}
+
+    </script>
+
+</body>
+</html>
